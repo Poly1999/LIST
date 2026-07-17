@@ -1,27 +1,33 @@
+import { NativeSelect, NativeSelectOption } from './ui/native-select';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+
 function FilterBar() {
   return (
     <div className='flex justify-between'>
+      <Tabs defaultValue='overview'>
+        <TabsList variant='line' className='text-white'>
+          <TabsTrigger value='overview'>All</TabsTrigger>
+          <TabsTrigger value='analytics'>In Progress</TabsTrigger>
+          <TabsTrigger value='reports'>Completed</TabsTrigger>
+        </TabsList>
+      </Tabs>
       <div className='flex gap-5'>
-        <button className='filter-btn'>All</button>
-        <button className='filter-btn'>In Progress</button>
-        <button className='filter-btn'>Completed</button>
-      </div>
-      <div className='flex gap-5'>
-        <select className='filter-select' defaultValue=''>
-          <option value=''>Category</option>
-          <option>All</option>
-          <option>Personal</option>
-          <option>Work</option>
-          <option>Household</option>
-          <option>Shopping</option>
-          <option>Other</option>
-        </select>
-        <select className='filter-select' defaultValue=''>
-          <option value=''>Priority</option>
-          <option>No sorting</option>
-          <option>High to Low</option>
-          <option>Low to High</option>
-        </select>
+        <NativeSelect defaultValue='' className='h-10 text-white'>
+          <NativeSelectOption value=''>Category</NativeSelectOption>
+          <NativeSelectOption value='all'>All</NativeSelectOption>
+          <NativeSelectOption value='Personal'>Personal</NativeSelectOption>
+          <NativeSelectOption value='Work'>Work</NativeSelectOption>
+          <NativeSelectOption value='Household'>Household</NativeSelectOption>
+          <NativeSelectOption value='Shopping'>Shopping</NativeSelectOption>
+          <NativeSelectOption value='Other'>Other</NativeSelectOption>
+        </NativeSelect>
+
+        <NativeSelect defaultValue='' className='h-10 text-white'>
+          <NativeSelectOption value=''>Priority</NativeSelectOption>
+          <NativeSelectOption value='noSorting'>No sorting</NativeSelectOption>
+          <NativeSelectOption value='HighLow'>High to Low</NativeSelectOption>
+          <NativeSelectOption value='LowHigh'>Low to High</NativeSelectOption>
+        </NativeSelect>
       </div>
     </div>
   );
