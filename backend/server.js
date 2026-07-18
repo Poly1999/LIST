@@ -17,8 +17,12 @@ app.get('/api/health', (req, res) => {
 
 const PORT = process.env.PORT || 8080;
 
-connectDB(process.env.MONGO_URI).then(() => {
-  app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+if (require.main === module) {
+  connectDB(process.env.MONGO_URI).then(() => {
+    app.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`);
+    });
   });
-});
+}
+
+module.exports = app;
