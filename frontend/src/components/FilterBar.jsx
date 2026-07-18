@@ -1,5 +1,7 @@
+import { Input } from '@/components/ui/input';
 import { NativeSelect, NativeSelectOption } from './ui/native-select';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Search } from 'lucide-react';
 
 function FilterBar({
   status,
@@ -8,14 +10,26 @@ function FilterBar({
   onCategoryChange,
   sort,
   onSortChange,
+  search,
+  onSearchChange,
 }) {
   return (
-    <div className='flex justify-between'>
-      <Tabs
-        defaultValue='overview'
-        value={status}
-        onValueChange={onStatusChange}
-      >
+    <div className='flex justify-between items-center'>
+      <div className='relative'>
+        <Search
+          size={16}
+          className='absolute right-3 top-1/2 -translate-y-1/2 text-white/50'
+        />
+        <Input
+          type='text'
+          placeholder='Search tasks...'
+          value={search}
+          onChange={e => onSearchChange(e.target.value)}
+          className='h-10 w-65 px-4 rounded-full bg-transparent border border-white text-white placeholder:text-white/50'
+        />
+      </div>
+
+      <Tabs value={status} onValueChange={onStatusChange}>
         <TabsList variant='line' className='text-white'>
           <TabsTrigger value='all'>All</TabsTrigger>
           <TabsTrigger value='undone'>In Progress</TabsTrigger>
@@ -39,7 +53,6 @@ function FilterBar({
         </NativeSelect>
 
         <NativeSelect
-          defaultValue=''
           value={sort}
           onChange={e => onSortChange(e.target.value)}
           className='h-10 text-white'

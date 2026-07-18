@@ -16,13 +16,16 @@ function Home() {
   const [status, setStatus] = useState('all');
   const [category, setCategory] = useState('all');
   const [sort, setSort] = useState('');
+  const [search, setSearch] = useState('');
 
   useEffect(() => {
-    getTasks({ status, category, sort }).then(data => setTasks(data));
-  }, [status, category, sort]);
+    getTasks({ status, category, sort, search }).then(data => setTasks(data));
+  }, [status, category, sort, search]);
 
   function refreshTasks() {
-    return getTasks({ status, category, sort }).then(data => setTasks(data));
+    return getTasks({ status, category, sort, search }).then(data =>
+      setTasks(data),
+    );
   }
 
   function handleComplete(id) {
@@ -66,6 +69,8 @@ function Home() {
           onCategoryChange={setCategory}
           sort={sort}
           onSortChange={setSort}
+          search={search}
+          onSearchChange={setSearch}
         />
         <TaskTable
           tasks={tasks}
@@ -76,6 +81,7 @@ function Home() {
       </div>
       <AddTaskButton onClick={handleAddClick} />
       <AddTaskModal
+        key={editingTask ? editingTask._id : 'new'}
         open={isModalOpen}
         onOpenChange={setIsModalOpen}
         onSave={handleSaveTask}

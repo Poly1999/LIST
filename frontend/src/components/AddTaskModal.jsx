@@ -24,24 +24,21 @@ import { Calendar } from '@/components/ui/calendar';
 
 const EMPTY_FORM = { title: '', description: '', category: '', priority: '' };
 
-function AddTaskModal({ open, onOpenChange, onSave, task }) {
-  const [form, setForm] = useState(EMPTY_FORM);
-  const [date, setDate] = useState();
+function getInitialForm(task) {
+  if (!task) return EMPTY_FORM;
+  return {
+    title: task.title || '',
+    description: task.description || '',
+    category: task.category || '',
+    priority: task.priority ? String(task.priority) : '',
+  };
+}
 
-  useEffect(() => {
-    if (task) {
-      setForm({
-        title: task.title || '',
-        description: task.description || '',
-        category: task.category || '',
-        priority: task.priority ? String(task.priority) : '',
-      });
-      setDate(task.dueDate ? new Date(task.dueDate) : undefined);
-    } else {
-      setForm(EMPTY_FORM);
-      setDate(undefined);
-    }
-  }, [task, open]);
+function AddTaskModal({ open, onOpenChange, onSave, task }) {
+  const [form, setForm] = useState(() => getInitialForm(task));
+  const [date, setDate] = useState(() =>
+    task?.dueDate ? new Date(task.dueDate) : undefined,
+  );
 
   function handleChange(field, value) {
     setForm(prev => ({ ...prev, [field]: value }));
