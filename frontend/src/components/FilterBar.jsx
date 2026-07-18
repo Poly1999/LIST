@@ -38,6 +38,7 @@ function FilterBar({
       </Tabs>
       <div className='flex gap-5'>
         <NativeSelect
+          id='filter-category'
           value={category}
           onChange={e => onCategoryChange(e.target.value)}
           className='h-10 text-white'
@@ -52,6 +53,7 @@ function FilterBar({
         </NativeSelect>
 
         <NativeSelect
+          id='filter-priority'
           value={sort}
           onChange={e => onSortChange(e.target.value)}
           className='h-10 text-white'

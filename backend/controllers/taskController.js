@@ -67,7 +67,10 @@ function updateTask(req, res) {
   const { id } = req.params;
   const updates = req.body;
 
-  Task.findByIdAndUpdate(id, updates, { new: true, runValidators: true })
+  Task.findByIdAndUpdate(id, updates, {
+    returnDocument: 'after',
+    runValidators: true,
+  })
     .then(task => {
       if (!task) {
         return res.status(404).json({ message: 'Task not found' });

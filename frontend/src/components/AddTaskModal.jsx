@@ -94,6 +94,7 @@ function AddTaskModal({ open, onOpenChange, onSave, task }) {
             <Field className='flex flex-col gap-1.5'>
               <FieldLabel className='text-white'>Category:</FieldLabel>
               <NativeSelect
+                id='modal-category'
                 className='h-10'
                 value={form.category}
                 onChange={e => handleChange('category', e.target.value)}
@@ -121,6 +122,7 @@ function AddTaskModal({ open, onOpenChange, onSave, task }) {
             <Field className='flex flex-col gap-1.5'>
               <FieldLabel className='text-white'>Priority:</FieldLabel>
               <NativeSelect
+                id='modal-priority'
                 className='h-10'
                 value={form.priority}
                 onChange={e => handleChange('priority', e.target.value)}
