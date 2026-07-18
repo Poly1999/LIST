@@ -1,4 +1,5 @@
-import { useState } from 'react';
+'use client';
+import { useState, useEffect } from 'react';
 import { format } from 'date-fns';
 
 import {
@@ -21,15 +22,44 @@ import {
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 
-function AddTaskModal({ open, onOpenChange }) {
-  const [date, setDate] = useState();
+const EMPTY_FORM = { title: '', description: '', category: '', priority: '' };
+
+function getInitialForm(task) {
+  if (!task) return EMPTY_FORM;
+  return {
+    title: task.title || '',
+    description: task.description || '',
+    category: task.category || '',
+    priority: task.priority ? String(task.priority) : '',
+  };
+}
+
+function AddTaskModal({ open, onOpenChange, onSave, task }) {
+  const [form, setForm] = useState(() => getInitialForm(task));
+  const [date, setDate] = useState(() =>
+    task?.dueDate ? new Date(task.dueDate) : undefined,
+  );
+
+  function handleChange(field, value) {
+    setForm(prev => ({ ...prev, [field]: value }));
+  }
+
+  function handleSubmit() {
+    onSave({
+      title: form.title,
+      description: form.description,
+      category: form.category,
+      priority: form.priority,
+      dueDate: date || null,
+    });
+  }
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className='sm:max-w-3xl glass-panel border-white/20'>
         <DialogHeader>
           <DialogTitle className='text-white text-xl'>
-            Add a new task
+            {task ? 'Edit task' : 'Add new task'}
           </DialogTitle>
         </DialogHeader>
         <div className='grid grid-cols-2 gap-6'>
@@ -41,8 +71,10 @@ function AddTaskModal({ open, onOpenChange }) {
               <Input
                 id='input-field-name'
                 type='text'
+                value={form.title}
                 placeholder="Name for the task you're going to do"
                 className='h-10'
+                onChange={e => handleChange('title', e.target.value)}
               />
             </Field>
 
@@ -54,12 +86,18 @@ function AddTaskModal({ open, onOpenChange }) {
                 id='textarea-message'
                 placeholder='A short description of the task..'
                 className='resize-none h-32 border border-white/40 rounded-md bg-transparent p-2'
+                value={form.description}
+                onChange={e => handleChange('description', e.target.value)}
               />
             </Field>
 
             <Field className='flex flex-col gap-1.5'>
               <FieldLabel className='text-white'>Category:</FieldLabel>
-              <NativeSelect defaultValue='' className='h-10'>
+              <NativeSelect
+                className='h-10'
+                value={form.category}
+                onChange={e => handleChange('category', e.target.value)}
+              >
                 <NativeSelectOption value=''>
                   Select category
                 </NativeSelectOption>
@@ -82,20 +120,19 @@ function AddTaskModal({ open, onOpenChange }) {
           <div className='flex flex-col gap-4'>
             <Field className='flex flex-col gap-1.5'>
               <FieldLabel className='text-white'>Priority:</FieldLabel>
-              <NativeSelect defaultValue='' className='h-10'>
+              <NativeSelect
+                className='h-10'
+                value={form.priority}
+                onChange={e => handleChange('priority', e.target.value)}
+              >
                 <NativeSelectOption value=''>
                   Select priority
                 </NativeSelectOption>
-                <NativeSelectOption value='1'>1</NativeSelectOption>
-                <NativeSelectOption value='2'>2</NativeSelectOption>
-                <NativeSelectOption value='3'>3</NativeSelectOption>
-                <NativeSelectOption value='4'>4</NativeSelectOption>
-                <NativeSelectOption value='5'>5</NativeSelectOption>
-                <NativeSelectOption value='6'>6</NativeSelectOption>
-                <NativeSelectOption value='7'>7</NativeSelectOption>
-                <NativeSelectOption value='8'>8</NativeSelectOption>
-                <NativeSelectOption value='9'>9</NativeSelectOption>
-                <NativeSelectOption value='10'>10</NativeSelectOption>
+                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(n => (
+                  <NativeSelectOption key={n} value={String(n)}>
+                    {n}
+                  </NativeSelectOption>
+                ))}
               </NativeSelect>
             </Field>
 
@@ -131,12 +168,14 @@ function AddTaskModal({ open, onOpenChange }) {
           <Button
             variant='outline'
             className='border-white/30 text-white text-base px-8 h-11 bg-white/10 hover:bg-transparent transition-colors'
+            onClick={handleSubmit}
           >
             Submit
           </Button>
           <Button
             variant='outline'
             className='border-white/30 text-white text-base px-8 h-11 bg-transparent hover:bg-white/10 transition-colors'
+            onClick={() => onOpenChange(false)}
           >
             Cancel
           </Button>
