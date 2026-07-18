@@ -4,6 +4,7 @@ function AddTaskButton({ onClick }) {
   return (
     <button
       onClick={onClick}
+      aria-label='add-task'
       className='group fixed bottom-8 right-8 h-12 rounded-full bg-purple-500 hover:bg-purple-600 shadow-lg flex items-center overflow-hidden px-4 transition-colors duration-300'
     >
       <Plus
