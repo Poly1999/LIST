@@ -38,7 +38,6 @@ function FilterBar({
       </Tabs>
       <div className='flex gap-5'>
         <NativeSelect
-          defaultValue=''
           value={category}
           onChange={e => onCategoryChange(e.target.value)}
           className='h-10 text-white'
