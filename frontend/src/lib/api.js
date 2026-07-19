@@ -1,4 +1,5 @@
-const API_URL = 'http://localhost:8080/api/tasks';
+const API_URL =
+  process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080/api/tasks';
 
 export function getTasks(params = {}) {
   const query = new URLSearchParams(params).toString();
