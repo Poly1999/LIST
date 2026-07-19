@@ -25,6 +25,13 @@ function Home() {
     sort,
     search,
   });
+  const [addKey, setAddKey] = useState(0);
+
+  function handleAddClick() {
+    setEditingTask(null);
+    setAddKey(prev => prev + 1);
+    setIsModalOpen(true);
+  }
 
   const PAGE_SIZE = 5;
 
@@ -59,11 +66,6 @@ function Home() {
     deleteTask(id).then(() => {
       setTasks(prev => prev.filter(task => task._id !== id));
     });
-  }
-
-  function handleAddClick() {
-    setEditingTask(null);
-    setIsModalOpen(true);
   }
 
   function handleEditClick(task) {
@@ -134,7 +136,7 @@ function Home() {
       </div>
       <AddTaskButton onClick={handleAddClick} />
       <AddTaskModal
-        key={editingTask ? editingTask._id : 'new'}
+        key={editingTask ? editingTask._id : `new-${addKey}`}
         open={isModalOpen}
         onOpenChange={setIsModalOpen}
         onSave={handleSaveTask}
