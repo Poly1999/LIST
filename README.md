@@ -33,37 +33,32 @@
 
 ### Backend
 
-\`\`\`bash
+```bash
 cd backend
 npm install
-
 # create .env based on .env.example
-
 npm run dev
-\`\`\`
+```
 
 ### Frontend
 
-\`\`\`bash
+```bash
 cd frontend
 npm install
 npm run dev
-\`\`\`
+```
 
 ### Tests
 
-\`\`\`bash
-
+```bash
 # Backend tests
-
 cd backend
 npm test
 
 # E2E tests (requires backend + frontend running)
-
 cd e2e
 npx playwright test
-\`\`\`
+```
 
 ## AI Workflow
 
