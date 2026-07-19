@@ -39,6 +39,7 @@ function AddTaskModal({ open, onOpenChange, onSave, task }) {
   const [date, setDate] = useState(() =>
     task?.dueDate ? new Date(task.dueDate) : undefined,
   );
+  const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
 
   function handleChange(field, value) {
     setForm(prev => ({ ...prev, [field]: value }));
@@ -56,7 +57,7 @@ function AddTaskModal({ open, onOpenChange, onSave, task }) {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className='sm:max-w-3xl glass-panel border-white/20'>
+      <DialogContent className='sm:max-w-3xl glass-panel-modal border-white/20'>
         <DialogHeader>
           <DialogTitle className='text-white text-xl'>
             {task ? 'Edit task' : 'Add new task'}
@@ -142,7 +143,10 @@ function AddTaskModal({ open, onOpenChange, onSave, task }) {
               <FieldLabel htmlFor='date-picker-simple' className='text-white'>
                 Date:
               </FieldLabel>
-              <Popover>
+              <Popover
+                open={isDatePickerOpen}
+                onOpenChange={setIsDatePickerOpen}
+              >
                 <PopoverTrigger
                   render={
                     <Button
@@ -158,7 +162,10 @@ function AddTaskModal({ open, onOpenChange, onSave, task }) {
                   <Calendar
                     mode='single'
                     selected={date}
-                    onSelect={setDate}
+                    onSelect={selectedDate => {
+                      setDate(selectedDate);
+                      setIsDatePickerOpen(false);
+                    }}
                     defaultMonth={date}
                   />
                 </PopoverContent>

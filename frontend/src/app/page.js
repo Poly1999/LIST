@@ -9,13 +9,14 @@ import AddTaskModal from '@/components/AddTaskModal';
 import { useEffect } from 'react';
 import { getTasks, updateTask, deleteTask, createTask } from '@/lib/api';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import BackgroundCircles from '@/components/BackgroundCircles';
 
 function Home() {
   const [tasks, setTasks] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingTask, setEditingTask] = useState(null);
   const [status, setStatus] = useState('all');
-  const [category, setCategory] = useState('all');
+  const [category, setCategory] = useState('');
   const [sort, setSort] = useState('');
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(1);
@@ -85,7 +86,8 @@ function Home() {
 
   return (
     <main className='min-h-screen flex flex-col items-center justify-center p-8'>
-      <div className='glass-panel w-full max-w-4xl p-8 flex flex-col gap-9'>
+      <BackgroundCircles />
+      <div className='glass-panel w-full max-w-5xl p-8 flex flex-col gap-9 relative z-10'>
         <Header />
         <FilterBar
           status={status}
